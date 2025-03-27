@@ -167,7 +167,7 @@ void resetar_entrada(uint8_t *buffer, struct render_area *area)
     }
     posicao_atual = 0;
     senhaInserida = false;
-    //exibir_messagem(buffer, area);
+    exibir_messagem(buffer, area);
 }
 // Loop principal
 void loop(uint8_t *buffer, struct render_area *area)
@@ -204,28 +204,13 @@ int main()
 restart:
 
     // Parte do código para exibir a mensagem no display (opcional: mudar ssd1306_height para 32 em ssd1306_i2c.h)
-
+    exibir_messagem(ssd, &frame_area); // Exibir tela inicial para digitação da senha
     while (true)
     {
-        if (gpio_get(BUTTON_A_PIN) == 0)
-        {
-            exibir_messagem(ssd, &frame_area); // Exibir tela inicial para digitação da senha
-            // Chama a função LOOP
-            loop(ssd, &frame_area);
-        }
-        if (gpio_get(BUTTON_B_PIN) == 0)
-        {
-            // zera o display inteiro
-            limpar_display(ssd, &frame_area); // Chama a função para limpar a tela
-            //Apaga os leds
-            gpio_put(RED_LED_PIN, 0);         // Desliga o LED vermelho
-            gpio_put(GREEN_LED_PIN, 0);       // Desliga o LED verde
-            gpio_put(BLUE_LED_PIN, 1);        // Desliga o LED azul
-            // Atualizar a exibição
-            sleep_ms(300);
-        }
 
-        sleep_ms(100);
+        // Chama a função LOOP
+        loop(ssd, &frame_area);
+        sleep_ms(10);
     }
 
     return 0;
